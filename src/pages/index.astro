@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import ProjectItem from '../components/ProjectItem.astro';
+import ListItem from '../components/ListItem.astro';
+import Banner from '../components/Banner.astro';
+import '../styles/global.css';
+---
+<Layout title="SD">
+  <Hero />
+  <Banner />
+  
+  <Section id="writeups" title="Writeups">
+    <ListItem
+      title="HTB — Previous"
+      date="2025-08-23"
+      url="/writeups/htb-previous"
+    />
+  </Section>
+
+  <Section id="projects" title="Projects">
+    <ProjectItem 
+      name="mini-siem" 
+      description="A lightweight Security Information and Event Management (SIEM)" 
+      link="https://github.com/s-n9/mini-siem.git"
+    />
+  </Section>
+</Layout>

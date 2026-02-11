@@ -1,0 +1,456 @@
+---
+import Layout from './Layout.astro';
+import { formatDate } from '../js/utils.js';
+import '../styles/global.css';
+
+const { title, date, difficulty, tags } = Astro.props.frontmatter;
+const formattedDate = formatDate(date);
+---
+<Layout title={title} showNavbar={false} showFooter={false}>
+  <article class="writeup">
+    <header class="writeup-header">
+      <h1>{title}</h1>
+      <div class="writeup-meta">
+        <time>{formattedDate}</time>
+        {difficulty && (
+        <span class="difficulty" data-level={difficulty.toLowerCase()}>
+          {difficulty}
+        </span>
+        )}
+        {tags && tags.length > 0 && (
+        <div class="tags">
+          {tags.map((tag: string) => <span class="tag">{tag}</span>)}
+        </div>
+        )}
+      </div>
+    </header>
+
+    <div class="writeup-content">
+      <slot />
+    </div>
+
+    <footer class="writeup-footer">
+      <a href="/#writeups" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Writeups
+      </a>
+    </footer>
+  </article>
+
+  <div id="image-lightbox" class="image-lightbox" aria-hidden="true">
+    <img id="lightbox-img" alt="" />
+  </div>
+</Layout>
+
+<style is:global>
+.writeup {
+  padding: 1rem 0 4rem;
+}
+
+.writeup-header {
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.writeup-header h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+.writeup-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.writeup-meta time {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.difficulty {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.difficulty[data-level="easy"] {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.difficulty[data-level="medium"] {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.difficulty[data-level="hard"] {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.difficulty[data-level="insane"] {
+  background: rgba(168, 85, 247, 0.15);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 0.25rem 0.75rem;
+  background: rgba(96, 165, 250, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.writeup-content {
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.writeup-content h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 3rem 0 1.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.writeup-content h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem 0;
+}
+
+.writeup-content h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.writeup-content p {
+  margin: 1rem 0;
+}
+
+.writeup-content a {
+  color: #60a5fa;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.writeup-content a:hover {
+  border-bottom-color: #60a5fa; 
+  color: #93c5fd;
+}
+
+.writeup-content ul,
+.writeup-content ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.writeup-content li {
+  margin: 0.5rem 0;
+}
+
+.writeup-content li::marker {
+  color: var(--muted);
+}
+
+.writeup-content :not(pre) > code {
+  background: var(--panel);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 0.9em;
+  color: #60a5fa;
+  border: 1px solid var(--border);
+}
+
+.writeup-content pre {
+  background: var(--panel);
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+.writeup-content pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--text);
+  font-size: 0.9rem;
+  border: none;
+}
+
+.writeup-content blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 3px solid #60a5fa;
+  background: rgba(96, 165, 250, 0.05);
+  border-radius: 0 4px 4px 0;
+}
+
+.writeup-content blockquote p {
+  margin: 0.5rem 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.writeup-content blockquote p:first-child {
+  margin-top: 0;
+}
+
+.writeup-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.writeup-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 2rem auto;
+  border: 1px solid var(--border);
+  display: block;
+  background: var(--panel);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 7;
+}
+
+.image-lightbox.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.image-lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+.writeup-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.writeup-content th,
+.writeup-content td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.writeup-content th {
+  background: var(--panel);
+  font-weight: 600;
+}
+
+.writeup-content tr:last-child td {
+  border-bottom: none;
+}
+
+.writeup-content tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.writeup-content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+.writeup-content strong {
+  font-weight: 600;
+}
+
+.writeup-content em {
+  font-style: italic;
+}
+
+.writeup-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.back-link {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-link:hover {
+  color: var(--text);
+  transform: translateX(-4px);
+}
+
+.back-link svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .writeup-header h1 {
+    font-size: 2rem;
+  }
+
+  .writeup-meta {
+    gap: 0.75rem;
+  }
+
+  .writeup-meta time {
+    font-size: 0.85rem;
+  }
+
+  .difficulty, .tag {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .writeup-content h2 {
+    font-size: 1.5rem;
+    margin: 2.5rem 0 1.25rem 0;
+  }
+
+  .writeup-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .writeup-content h4 {
+    font-size: 1.1rem;
+  }
+
+  .writeup-content pre {
+    padding: 1rem;
+    margin: 1.25rem 0;
+  }
+
+  .writeup-content pre code {
+    font-size: 0.85rem;
+  }
+
+  .writeup-content ul, 
+  .writeup-content ol {
+    padding-left: 1.5rem;
+  }
+
+  .writeup-content img {
+    margin: 1.5rem auto;
+    border-radius: 6px;
+  }
+
+  .writeup-content table {
+    font-size: 0.85rem;
+  }
+
+  .writeup-content th,
+  .writeup-content td {
+    padding: 0.6rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .writeup-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .writeup-content h2 {
+    font-size: 1.35rem;
+  }
+
+  .writeup-content h3 {
+    font-size: 1.15rem;
+  }
+
+  .writeup-content pre {
+    padding: 0.75rem;
+    border-radius: 6px;
+  }
+
+  .writeup-content :not(pre) > code {
+    font-size: 0.85em;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .writeup-content table {
+    font-size: 0.8rem;
+   }
+    
+  .writeup-content th,
+  .writeup-content td {
+    padding: 0.5rem 0.6rem;
+  }
+}
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const lightbox = document.getElementById('image-lightbox') as HTMLDivElement;
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+
+    if (!lightbox || !lightboxImg) return;
+
+    document.querySelectorAll<HTMLImageElement>('.writeup-content img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    const close = () => {
+      lightbox.classList.remove('open');
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+    };
+
+    lightbox.addEventListener('click', close);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+  });
+</script>

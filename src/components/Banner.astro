@@ -1,0 +1,168 @@
+---
+interface BannerItem {
+  image: string;
+  title: string;
+  link: string;
+}
+
+const items: BannerItem[] = [
+  { image: '/htb/previous/previous.png', title: 'HTB — Previous', link: '/writeups/htb-previous' },
+  { image: '/projects/elk.svg', title: 'mini-siem', link: 'https://github.com/s-n9/mini-siem.git' },
+];
+---
+<section class="banner">
+  <div class="carousel" id="carousel">
+    <div class="track" id="track">
+      {items.map(item => (
+        <a href={item.link} class="item" target="_blank" rel="noopener noreferrer">
+          <img src={item.image} alt={item.title} loading="lazy" />
+          <span class="title">{item.title}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.banner {
+  margin-bottom: 2rem;
+}
+
+.carousel {
+  overflow: hidden;
+  padding: 2rem 0;
+}
+
+.track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  will-change: transform;
+}
+
+.item {
+  position: relative;
+  min-width: 320px;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: block;
+}
+
+.item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.item:hover img {
+  transform: scale(1.1);
+}
+
+.title {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.6rem;
+  font-size: 0.8rem;
+  color: #eaeaea;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.item:hover .title {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.item::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent);
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.item:hover::after {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+}
+
+@media (max-width: 768px) {
+  .item {
+    min-width: 280px;
+    height: 160px;
+  }
+  
+  .carousel {
+    padding: 1.5rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    min-width: 240px;
+    height: 135px;
+  }
+  
+  .title {
+    font-size: 0.75rem;
+    left: 0.6rem;
+    bottom: 0.5rem;
+  }
+}
+</style>
+
+<script>
+  const track = document.getElementById('track') as HTMLElement | null;
+  const carousel = document.getElementById('carousel') as HTMLElement | null;
+
+  if (track && carousel) {
+    const items = Array.from(track.children) as HTMLElement[];
+
+    items.forEach(item => {
+      const clone = item.cloneNode(true) as HTMLElement;
+      track.appendChild(clone);
+    });
+
+    let scrollPosition = 0;
+    const scrollSpeed = 0.2;
+    let animationId: number;
+    let isPaused = false;
+
+    const animate = () => {
+      if (!isPaused && track) {
+        scrollPosition += scrollSpeed;
+        const trackWidth = track.scrollWidth / 2;
+
+        if (scrollPosition >= trackWidth) {
+          scrollPosition = 0;
+        }
+
+        track.style.transform = `translateX(-${scrollPosition}px)`;
+      }
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    carousel.addEventListener('mouseenter', () => isPaused = true);
+    carousel.addEventListener('mouseleave', () => isPaused = false);
+
+    window.addEventListener('beforeunload', () => cancelAnimationFrame(animationId));
+  }
+</script>

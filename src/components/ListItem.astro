@@ -1,0 +1,26 @@
+---
+const { title, date, url } = Astro.props;
+---
+<div class="list-item">
+  <span class="date">{date}</span>
+  <a href={url} target="_blank" rel="noopener noreferrer" class="title">{title}</a>
+</div>
+
+<style>
+.list-item { 
+  display: flex; 
+  gap: 1rem; 
+  margin-bottom: 0.8rem; 
+  transition: transform 0.2s ease;
+}
+
+.list-item:hover {
+  transform: translateX(4px);
+}
+
+.date { 
+  color: var(--muted); 
+  font-size: 0.85rem; 
+  width: 90px; 
+}
+</style>

@@ -1,0 +1,96 @@
+---
+const { name, description, link } = Astro.props;
+---
+<div class="project-item">
+  <div class="project-header">
+    <div class="project-title">
+      <svg class="folder-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+      </svg>
+      <h3 class="project-name">
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          {name}
+        </a>
+      </h3>
+    </div>
+    <a href={link} target="_blank" rel="noopener noreferrer" class="github-link" aria-label="View on GitHub">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+      </svg>
+    </a>
+  </div>
+  
+  <p class="project-description">{description}</p>
+</div>
+
+<style>
+.project-item { 
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.project-item:hover {
+  transform: translateX(4px);
+}
+
+.project-item:last-child {
+  margin-bottom: 0;
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.project-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.folder-icon {
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: color 0.3s ease;
+}
+
+.project-item:hover .folder-icon {
+  color: var(--text);
+}
+
+.github-link {
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.github-link:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.project-name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.project-name a {
+  color: var(--text);
+  transition: color 0.3s ease;
+}
+
+.project-description { 
+  color: var(--muted); 
+  margin: 0 0 0 1.75rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+</style>

@@ -1,0 +1,12 @@
+---
+const { title, id } = Astro.props;
+---
+<section id={id} class="section">
+  <h2>{title}</h2>
+  <slot />
+</section>
+
+<style>
+.section { margin-bottom: 4rem; }
+h2 { font-size: 1.4rem; margin-bottom: 1.5rem; }
+</style>

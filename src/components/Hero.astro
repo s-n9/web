@@ -1,0 +1,97 @@
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-visual" aria-hidden="true">
+      <img
+        src="/character.gif"
+        alt="hero"
+        class="hero-gif"
+      />
+    </div>
+    <div class="hero-content">
+      <h1>Cybersecurity Notes</h1>
+      <p class="subtitle">
+        A personal space for walkthroughs, vulnerability research, CVEs and projects.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+.hero {
+  margin-bottom: 4rem;
+}
+
+.hero-inner {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.hero-visual {
+  width: 260px;
+  height: 260px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.hero-gif {
+  height: 130%;
+  max-width: none;
+  image-rendering: pixelated;
+  transform: translateY(10%);
+  pointer-events: none;
+  filter: brightness(1.08) contrast(1.06) drop-shadow(0 0 2px rgba(255,255,255,0.19));
+}
+
+h1 {
+  font-size: 2.6rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-top: 0.6rem;
+  max-width: 60ch;
+}
+
+
+@media (max-width: 768px) {
+  .hero {
+    margin-bottom: 3rem;
+  }
+  
+  .hero-inner {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  
+  .hero-visual {
+    width: 200px;
+    height: 200px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-visual {
+    width: 160px;
+    height: 160px;
+  }
+  
+  h1 {
+    font-size: 1.75rem;
+  }
+}
+</style>

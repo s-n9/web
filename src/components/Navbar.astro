@@ -1,0 +1,61 @@
+---
+const links = [
+  { href: '#writeups', label: 'Writeups'},
+  { href: '#projects', label: 'Projects'}
+];
+---
+<nav class="nav">
+  <div class="brand">SD</div>
+  <div class="links">
+    {links.map(link => (
+    <a href={link.href}>{link.label}</a>
+    ))}
+  </div>
+</nav>
+
+<style>
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.links a {
+  color: var(--muted);
+}
+
+.links a:hover {
+  color: var(--text);
+}
+
+@media (max-width: 480px) {
+  .nav {
+    padding: 1.25rem 0;
+  }
+
+  .brand {
+    font-size: 0.95rem;
+  }
+
+  .links {
+    gap: 1rem;
+  }
+
+  .links a {
+    font-size: 0.9rem;
+  }
+}
+</style>
